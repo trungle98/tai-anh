@@ -1,1 +1,1 @@
-web: gunicorn tai-anh:app
+web: gunicorn main:app
