@@ -7,7 +7,8 @@ app = Flask(__name__, static_url_path ='/static')
 UPLOAD_FOLDER = 'static/uploads/'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
-
+lat = 0
+longt = 0
 def allowed_file(filename):
 	return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
@@ -18,7 +19,7 @@ def welcome():
     return render_template("listImage.html", imagelist=imagelist)
 @app.route('/map')
 def hello_world():
-    return render_template('hello.html', name="List Image")
+    return render_template('hello.html',latitude = lat, longtitude = longt)
 
 @app.route('/upload')
 def uploader_file():
