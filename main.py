@@ -71,7 +71,7 @@ def setAutoMove():
 @app.route('/getAutoMove', methods=['GET'])
 def getAutoMove():
     print("in get x, y"+str(loc["x"]))
-    return render_template("getCoordinates.html", loc = loc)
+    return render_template("getCoordinates.html", x = loc["x"], y = loc["y"])
 @app.route("/setLocation", methods=['GET'])
 def setLocation():
     lng = request.args.get('lng', default="", type=str)

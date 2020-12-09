@@ -4,12 +4,12 @@ import requests
 import urllib.request
 import shutil
 
-url = "http://127.0.0.1:5000/getAutoMove"
+url = "https://tai-anh.herokuapp.com/getAutoMove"
 response = requests.get(url)
 
 soup = BeautifulSoup(response.text, "html.parser")
 
-lng = soup.find_all("h1" )
+lng = soup.find_all("h1", {"id":"lng"})
 lat = soup.find_all("h1", {"id":"lat"})
-print("lng: " +str(lng))
-print("lat: " +str(lat))
+print("lng: " +str(lng)[14:-6])
+print("lat: " +str(lat)[14:-6])
