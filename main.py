@@ -1,14 +1,17 @@
 from flask import Flask, flash, request, render_template, redirect
 from werkzeug.utils import secure_filename
 from werkzeug.datastructures import  FileStorage
+import random
 import os
 app = Flask(__name__, static_url_path ='/static')
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 UPLOAD_FOLDER = 'static/uploads/'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
-lat = 0
-longt = 0
+location = {
+    "latitude" : 10.8504334,
+    "longtitude" : 106.6681129
+}
 def allowed_file(filename):
 	return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
@@ -19,7 +22,7 @@ def welcome():
     return render_template("listImage.html", imagelist=imagelist)
 @app.route('/map')
 def hello_world():
-    return render_template('hello.html',latitude = lat, longtitude = longt)
+    return render_template('hello.html',location = location)
 
 @app.route('/upload')
 def uploader_file():
@@ -27,7 +30,8 @@ def uploader_file():
 	
 @app.route('/uploader', methods = ['GET', 'POST'])
 def upload():
-    imageName = request.args.get('name', type=str)
+    imageName = request.form.get('imageName', type=str)
+    print(imageName)
     if 'file' not in request.files:
         flash('No file part')
         return redirect("/upload")
@@ -37,9 +41,12 @@ def upload():
         return redirect("/upload")
     if file and allowed_file(file.filename):
         filename = secure_filename(file.filename)
-        file.save(os.path.join(app.config['UPLOAD_FOLDER'], file.filename))
-		#print('upload_image filename: ')
-        flash('Image successfully uploaded and displayed')
+
+        name, ext = filename.split('.')
+        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        os.rename(UPLOAD_FOLDER+filename,UPLOAD_FOLDER+imageName+"-"+str(random.randint(1, 10000000000))+"."+ext )
+		#print('upload_image filename: ' + filename)
+        # flash('Image successfully uploaded and displayed')
         return render_template('upload.html', filename=filename)
     else:
         flash('Allowed image types are -> png, jpg, jpeg, gif')
@@ -51,5 +58,12 @@ def delete():
     os.remove(image)
     return redirect("/")
 
+@app.route("/setLocation", methods=['GET'])
+def setLocation():
+    lng = request.args.get('lng', default="", type=str)
+    lat = request.args.get('lat', default="", type=str)
+    location['latitude'] = lat
+    location['longtitude'] = lng
+    return redirect("/")
 if __name__ == '__main__':
     app.run()
