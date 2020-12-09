@@ -1,15 +1,11 @@
 <html>
     <head>
-        <script>
-            document.getElementById("lng").innerHTML = {{ loc["x"] }};
-            document.getElementById("lat").innerHTML = {{ loc["y"] }};
-    
-        </script>
+
     </head>
     <body>
         <h1>loc</h1>
-        <h1 id="lng"></h1>
-        <h1 id="lat"></h1>
+        <h1 id="lng">{{ loc["x"] }}</h1>
+        <h1 id="lat">{{ loc["y"] }}</h1>
     </body>
 
 </html>

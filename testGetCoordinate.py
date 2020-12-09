@@ -4,7 +4,7 @@ import requests
 import urllib.request
 import shutil
 
-url = "https://tai-anh.herokuapp.com/getAutoMove"
+url = "http://127.0.0.1:5000/getAutoMove"
 response = requests.get(url)
 
 soup = BeautifulSoup(response.text, "html.parser")
