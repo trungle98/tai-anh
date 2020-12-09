@@ -4,9 +4,12 @@ import requests
 import urllib.request
 import shutil
 
-url = "https://rubikscode.net/"
+url = "https://tai-anh.herokuapp.com/getAutoMove"
 response = requests.get(url)
 
 soup = BeautifulSoup(response.text, "html.parser")
 
-aas = soup.find_all("a", class_='entry-featured-image-url')
+lng = soup.find_all("h1" )
+lat = soup.find_all("h1", {"id":"lat"})
+print("lng: " +str(lng))
+print("lat: " +str(lat))
