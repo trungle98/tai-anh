@@ -1,14 +1,17 @@
 from flask import Flask, flash, request, render_template, redirect
 from werkzeug.utils import secure_filename
 from werkzeug.datastructures import  FileStorage
+import random
 import os
 app = Flask(__name__, static_url_path ='/static')
 
 UPLOAD_FOLDER = 'static/uploads/'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
-lat = 0
-longt = 0
+location = {
+    "latitude" : 10.8504334,
+    "longtitude" : 106.6681129
+}
 def allowed_file(filename):
 	return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
@@ -19,7 +22,10 @@ def welcome():
     return render_template("listImage.html", imagelist=imagelist)
 @app.route('/map')
 def hello_world():
-    return render_template('hello.html',latitude = lat, longtitude = longt)
+    return render_template('hello.html',location = {
+    "latitude" : 10.8504334,
+    "longtitude" : 106.6681129
+})
 
 @app.route('/upload')
 def uploader_file():
@@ -27,6 +33,8 @@ def uploader_file():
 	
 @app.route('/uploader', methods = ['GET', 'POST'])
 def upload():
+    imageName = request.form.get('imageName', type=str)
+    print(imageName)
     if 'file' not in request.files:
         flash('No file part')
         return redirect(request.url)
@@ -36,8 +44,9 @@ def upload():
         return redirect(request.url)
     if file and allowed_file(file.filename):
         filename = secure_filename(file.filename)
-
+        name, ext = filename.split('.')
         file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        os.rename(UPLOAD_FOLDER+filename,UPLOAD_FOLDER+imageName+"-"+str(random.randint(1, 10000000000))+"."+ext )
 		#print('upload_image filename: ' + filename)
         # flash('Image successfully uploaded and displayed')
         return render_template('upload.html', filename=filename)
