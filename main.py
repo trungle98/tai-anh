@@ -42,7 +42,7 @@ def upload():
         return render_template('upload.html', filename=filename)
     else:
         flash('Allowed image types are -> png, jpg, jpeg, gif')
-        return redirect(request.url)
+        return redirect("/uploader")
 @app.route('/deleteImage', methods=['GET'])
 def delete():
     image = request.args.get('image', default="*", type=str)
