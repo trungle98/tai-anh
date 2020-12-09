@@ -3,7 +3,7 @@ from werkzeug.utils import secure_filename
 from werkzeug.datastructures import  FileStorage
 import os
 app = Flask(__name__, static_url_path ='/static')
-
+app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 UPLOAD_FOLDER = 'static/uploads/'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
@@ -27,23 +27,23 @@ def uploader_file():
 	
 @app.route('/uploader', methods = ['GET', 'POST'])
 def upload():
+    imageName = request.args.get('name', type=str)
     if 'file' not in request.files:
         flash('No file part')
-        return redirect(request.url)
+        return redirect("/upload")
     file = request.files['file']
-    if file.filename == '':
+    if file.filename == '' or imageName == None:
         flash('No image selected for uploading')
-        return redirect(request.url)
+        return redirect("/upload")
     if file and allowed_file(file.filename):
         filename = secure_filename(file.filename)
-
-        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-		#print('upload_image filename: ' + filename)
-        # flash('Image successfully uploaded and displayed')
+        file.save(os.path.join(app.config['UPLOAD_FOLDER'], file.filename))
+		#print('upload_image filename: ')
+        flash('Image successfully uploaded and displayed')
         return render_template('upload.html', filename=filename)
     else:
         flash('Allowed image types are -> png, jpg, jpeg, gif')
-        return redirect("/uploader")
+        return redirect("/upload")
 @app.route('/deleteImage', methods=['GET'])
 def delete():
     image = request.args.get('image', default="*", type=str)
