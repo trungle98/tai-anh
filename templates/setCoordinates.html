@@ -29,15 +29,16 @@
         </div>
         <div class="wrapper" style="width: 100%;">
 
-            {% for imagelist in imagelist %}
-            <form action="deleteImage" method="GET" style="float: left; margin-left: 3%;">
-                <div class="images" style="width: 200px;">
-                    <img src = "{{imagelist}}" width="200"/> 
-                </div>
-                <button type="submit" class="btn btn-danger" value="{{imagelist}}" name="image">Delete</button>
+
+            <form action="setAutoMove" method="GET" style="float: left; margin-left: 3%;">
+                <label>longtitude</label>
+                <input type="number" required name="x">
+                <label>latitude</label>
+                <input type="number" required name="y">
+                <button type="submit" class="btn btn-success" name="image">Set coordinate</button>
                 
             </form>
-            {% endfor %}
+
         </div>
         
     </body>

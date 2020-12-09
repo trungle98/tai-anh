@@ -12,6 +12,8 @@ location = {
     "latitude" : 10.8504334,
     "longtitude" : 106.6681129
 }
+loc = {"x": 0,
+        "y": 0}
 def allowed_file(filename):
 	return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
@@ -57,7 +59,19 @@ def delete():
     print(image)
     os.remove(image)
     return redirect("/")
-
+@app.route('/setAutoMove', methods=['GET'])
+def setAutoMove():
+    x = request.args.get('x', default="*", type=str)
+    y = request.args.get('y', default="*", type=str)
+    print("x "+ str(x))
+    print("x "+ str(x))
+    loc["x"] = x
+    loc["y"] = y
+    return render_template("setCoordinates.html", loc = loc)
+@app.route('/getAutoMove', methods=['GET'])
+def getAutoMove():
+    print("in get x, y"+str(loc["x"]))
+    return render_template("getCoordinates.html", loc = loc)
 @app.route("/setLocation", methods=['GET'])
 def setLocation():
     lng = request.args.get('lng', default="", type=str)
