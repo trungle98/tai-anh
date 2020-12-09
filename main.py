@@ -22,10 +22,7 @@ def welcome():
     return render_template("listImage.html", imagelist=imagelist)
 @app.route('/map')
 def hello_world():
-    return render_template('hello.html',location = {
-    "latitude" : 10.8504334,
-    "longtitude" : 106.6681129
-})
+    return render_template('hello.html',location = location)
 
 @app.route('/upload')
 def uploader_file():
@@ -60,5 +57,12 @@ def delete():
     os.remove(image)
     return redirect("/")
 
+@app.route("/setLocation", methods=['GET'])
+def setLocation():
+    lng = request.args.get('lng', default="", type=str)
+    lat = request.args.get('lat', default="", type=str)
+    location['latitude'] = lat
+    location['longtitude'] = lng
+    return redirect("/")
 if __name__ == '__main__':
     app.run()
