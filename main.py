@@ -43,6 +43,12 @@ def upload():
     else:
         flash('Allowed image types are -> png, jpg, jpeg, gif')
         return redirect(request.url)
+@app.route('/deleteImage', methods=['GET'])
+def delete():
+    image = request.args.get('image', default="*", type=str)
+    print(image)
+    os.remove(image)
+    return redirect("/")
 
 if __name__ == '__main__':
     app.run()
