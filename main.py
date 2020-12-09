@@ -12,7 +12,7 @@ location = {
     "latitude" : 10.8504334,
     "longtitude" : 106.6681129
 }
-loc = [0, 0]
+loc = [1, 1]
 def allowed_file(filename):
 	return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 

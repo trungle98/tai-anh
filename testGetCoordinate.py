@@ -5,8 +5,8 @@ import urllib.request
 import shutil
 import time
 
-#url = "https://tai-anh.herokuapp.com/getAutoMove"
-url = "http://127.0.0.1:5000/getAutoMove"
+url = "https://tai-anh.herokuapp.com/getAutoMove"
+#url = "http://127.0.0.1:5000/getAutoMove"
 for i in range(100):
     response = requests.get(url)
 
