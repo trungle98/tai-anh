@@ -60,8 +60,8 @@ def delete():
     return redirect("/")
 @app.route('/setAutoMove', methods=['GET'])
 def setAutoMove():
-    x = request.args.get('x', default="*", type=str)
-    y = request.args.get('y', default="*", type=str)
+    x = request.args.get('x', default="0", type=str)
+    y = request.args.get('y', default="0", type=str)
     print("x "+ str(x))
     print("x "+ str(x))
     loc[0] = x
